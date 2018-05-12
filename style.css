@@ -1,0 +1,48 @@
+body {
+    font-family: Arial, Helvetica, sans-serif!important;
+    text-align: center;
+}
+#chat_div{
+    position:  absolute;
+}
+#chat {
+    width: 400px;
+    height: 700px;
+    background-color: #FAFAFA;
+    border: 1px solid #acacac;
+    padding: 0;
+    text-align: left;
+    overflow: auto;
+}
+#input {
+    width: 400px;
+    background-color: #acacac;
+    border: 1px solid #acacac;
+    padding: 0;   
+    text-align: center;
+}
+
+#message {
+    text-align: center;
+    border: 2px solid #55aaee;
+    width: 300px;
+    height: 40px;
+    margin: auto;
+    font-size: 1.25em;
+    box-sizing: border-box;
+}
+
+#submit {
+    width: 80px;
+    height: 40px;
+    border-radius: 0;
+    background-color: #43A047;
+    color: white;
+    font-size: 1.25em;
+    border: none;
+}
+#chat_p {
+    font-weight: bold;
+    font-size: 1.5em;
+    color: #34495e;
+}
