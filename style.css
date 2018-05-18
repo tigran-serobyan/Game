@@ -1,21 +1,50 @@
 body {
     font-family: Arial, Helvetica, sans-serif!important;
-    text-align: center;
+}
+#energy{
+    position:  absolute;
+    width: 300px;
+    height: 37px;
+    left: 1010px;
+}
+#energy_img{
+    background-image: url(images/life.png);
+    background-size: 100%;
+    position: absolute;
+    width: 300px;
+    height: 37px;
+}
+#energy_color{
+    position:  absolute;
+    top: 0;
+    left: 0;
+    width: 270;
+    height: 37px;
+    background: #4477dd;
+    transition: width 1s;
+    transition-timing-function: linear;
+}
+canvas{
+    position: absolute;
+    left: 300px;
 }
 #chat_div{
     position:  absolute;
+    border: dotted 2px #acacac;
+    padding: 10px;
+    border-radius: 5px;
+    background-image: linear-gradient(to bottom, #fafafa 0%,#fafafa 90.9999%,#acacac 90.99991%, #acacac 100%);
 }
 #chat {
-    width: 400px;
-    height: 700px;
+    width: 250px;
+    height: 500px;
     background-color: #FAFAFA;
-    border: 1px solid #acacac;
     padding: 0;
-    text-align: left;
     overflow: auto;
+    font-size: 13px;
 }
 #input {
-    width: 400px;
+    width: 250px;
     background-color: #acacac;
     border: 1px solid #acacac;
     padding: 0;   
@@ -23,26 +52,42 @@ body {
 }
 
 #message {
-    text-align: center;
     border: 2px solid #55aaee;
-    width: 300px;
-    height: 40px;
+    width: 180px;
+    height: 38px;
     margin: auto;
-    font-size: 1.25em;
+    padding: 2px;
+    font-size: 14px;
     box-sizing: border-box;
 }
 
 #submit {
-    width: 80px;
-    height: 40px;
+    width: 60px;
+    height: 38px;
     border-radius: 0;
     background-color: #43A047;
     color: white;
-    font-size: 1.25em;
+    font-size: 14px;
     border: none;
 }
 #chat_p {
     font-weight: bold;
     font-size: 1.5em;
     color: #34495e;
+}
+#info_div{
+    position:  absolute;
+    border: dotted 2px #acacac;
+    top: 250px;
+    right: 25px;
+    padding: 10px;
+    border-radius: 5px;
+    background: #fafafa;
+}
+#info {
+    width: 300px;
+    height: 300px;
+    padding: 0;
+    overflow: auto;
+    font-size: 13px;
 }
