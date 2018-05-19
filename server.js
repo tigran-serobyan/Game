@@ -71,4 +71,5 @@ io.on('connection', function (socket) {
     socket.on('right', function(me){io.sockets.emit('right',me)});
     socket.on('up', function(me){io.sockets.emit('up',me)});
     socket.on('down', function(me){io.sockets.emit('down',me)});
+    socket.on('gold', function(i){ goldArr.splice(i, 1); io.sockets.emit('gold',i)});
 });

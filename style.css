@@ -79,7 +79,7 @@ canvas{
     position:  absolute;
     border: dotted 2px #acacac;
     top: 250px;
-    right: 25px;
+    left: 1020px;
     padding: 10px;
     border-radius: 5px;
     background: #fafafa;
