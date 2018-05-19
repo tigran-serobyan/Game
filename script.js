@@ -1,3 +1,53 @@
+var q = 0;
+function newDraw() {
+    draw = function () {
+        q++;
+        image(grass, 0, 0, 704, 608);
+
+        image(img1, x[0], y[0], 32, 32);
+        image(img2, x[1], y[1], 32, 32);
+        image(img3, x[2], y[2], 32, 32);
+        image(img4, x[3], y[3], 32, 32);
+
+        for (var i in stoneArr) {
+            image(stone, stoneArr[i].x, stoneArr[i].y, 32, 32);
+        }
+        for (var i in goldArr) {
+            image(gold, goldArr[i].x, goldArr[i].y, 32, 32);
+        }
+        for (var i in powerArr) {
+            image(power, powerArr[i].x, powerArr[i].y, 32, 32);
+        }
+        image(black, x[me] - 1380, y[me] - 1170, 2816, 2432);
+        /* rect(x-704, y-608,664,1216);
+        rect(x-704, y-608,1408,568);
+        rect(x+70, y-70,904,808);
+        rect(x-70, y+70,904,808);*/
+        if (q <= 500) {
+            fill(0);
+            rect(0, 0, 704, 608);
+            fill(255);
+            rect(202, 275, 200, 50);
+            textSize(20);
+            if (me == 0) {
+                fill(0, 0, 200);
+                text('You are BLUE', 222, 300);
+            }
+            if (me == 1) {
+                fill(0, 200, 0);
+                text('You are GREEN', 222, 300);
+            }
+            if (me == 2) {
+                fill(200, 100, 0);
+                text('You are ORANGE', 222, 300);
+            }
+            if (me == 3) {
+                fill(200, 200, 0);
+                text('You are YELLOW', 222, 300);
+            }
+        }
+    }
+}
 var me = -1;
 var x = [0, 672, 0, 672];
 var y = [0, 0, 576, 576];
@@ -74,29 +124,7 @@ function main() {
             me = you;
         }
         if (you == 3) {
-            setTimeout(draw = function () {
-                image(grass, 0, 0, 704, 608);
-
-                image(img1, x[0], y[0], 32, 32);
-                image(img2, x[1], y[1], 32, 32);
-                image(img3, x[2], y[2], 32, 32);
-                image(img4, x[3], y[3], 32, 32);
-
-                for (var i in stoneArr) {
-                    image(stone, stoneArr[i].x, stoneArr[i].y, 32, 32);
-                }
-                for (var i in goldArr) {
-                    image(gold, goldArr[i].x, goldArr[i].y, 32, 32);
-                }
-                for (var i in powerArr) {
-                    image(power, powerArr[i].x, powerArr[i].y, 32, 32);
-                }
-                image(black, x[me] - 1380, y[me] - 1170, 2816, 2432);
-                /* rect(x-704, y-608,664,1216);
-                rect(x-704, y-608,1408,568);
-                rect(x+70, y-70,904,808);
-                rect(x-70, y+70,904,808);*/
-            },3000);
+            setTimeout(newDraw, 3000);
         }
     });
     socket.on('left', function (you) { x[you[1]] = you[0]; });
