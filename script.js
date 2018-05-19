@@ -1,7 +1,7 @@
 var me = -1;
 var x = [0, 672, 0, 672];
 var y = [0, 0, 576, 576];
-var gold = true;
+var gold_ = [false, false, false, false];
 var img1;
 var img2;
 var img3;
@@ -14,7 +14,7 @@ var black;
 var stoneArr = [];
 var goldArr = [];
 var powerArr = [];
-var life = 68;
+var life = 5;
 function setup() {
     createCanvas(704, 608);
     background('#acacac');
@@ -87,7 +87,7 @@ function main() {
     socket.on('down', function (you) { y[you[1]] = you[0]; });
     socket.on('info', function (info) { infoDiv.innerHTML += info; });
     function move() {
-        life -= 0.001;
+        life += 0.001;
         document.getElementById('energy_color').style.width = life + "%";
         if (keyIsDown(LEFT_ARROW)) {
             if (x[me] > 0) {
@@ -101,7 +101,7 @@ function main() {
                     if (playerOX - objectOX <= side && playerOX - objectOX >= 0) {
                         if (Math.abs(playerOY - objectOY) < side) {
                             var left = false;
-                            life -= 0.5;
+                            life += 0.5;
                         }
                     }
                 }
@@ -110,9 +110,12 @@ function main() {
                     var objectOY = goldArr[i].y + (side / 2);
                     if (playerOX - objectOX <= side && playerOX - objectOX >= 0) {
                         if (Math.abs(playerOY - objectOY) < side) {
-                            if (gold != true) {
-                                gold = true;
+                            if (gold_[me] != true) {
+                                gold_[me] = true;
                                 socket.emit('gold', i);
+                            }
+                            else {
+                                left = false;
                             }
                         }
                     }
@@ -123,12 +126,12 @@ function main() {
                     if (playerOX - objectOX <= side && playerOX - objectOX >= 0) {
                         if (Math.abs(playerOY - objectOY) < side) {
                             powerArr.splice(i, 1);
-                            life += 10;
+                            life -= 15;
                         }
                     }
                 }
                 if (left == true) {
-                    life -= 0.005;
+                    life += 0.005;
                     x[me]--;
                     socket.emit('left', [x[me], me]);
                 }
@@ -137,25 +140,148 @@ function main() {
 
         if (keyIsDown(RIGHT_ARROW)) {
             if (x[me] < 672) {
-                life -= 0.005;
-                x[me]++;
-                socket.emit('right', [x[me], me]);
+                var side = 32;
+                var playerOX = x[me] + (side / 2);
+                var playerOY = y[me] + (side / 2);
+                var right = true;
+                for (var i in stoneArr) {
+                    var objectOX = stoneArr[i].x + (side / 2);
+                    var objectOY = stoneArr[i].y + (side / 2);
+                    if (objectOX - playerOX <= side && objectOX - playerOX >= 0) {
+                        if (Math.abs(playerOY - objectOY) < side) {
+                            var right = false;
+                            life += 0.5;
+                        }
+                    }
+                }
+                for (var i in goldArr) {
+                    var objectOX = goldArr[i].x + (side / 2);
+                    var objectOY = goldArr[i].y + (side / 2);
+                    if (objectOX - playerOX <= side && objectOX - playerOX >= 0) {
+                        if (Math.abs(playerOY - objectOY) < side) {
+                            if (gold_[me] != true) {
+                                gold_[me] = true;
+                                socket.emit('gold', i);
+                            }
+                            else {
+                                right = false;
+                            }
+                        }
+                    }
+                }
+                for (var i in powerArr) {
+                    var objectOX = powerArr[i].x + (side / 2);
+                    var objectOY = powerArr[i].y + (side / 2);
+                    if (objectOX - playerOX <= side && objectOX - playerOX >= 0) {
+                        if (Math.abs(playerOY - objectOY) < side) {
+                            powerArr.splice(i, 1);
+                            life -= 15;
+                        }
+                    }
+                }
+                if (right == true) {
+                    life += 0.005;
+                    x[me]++;
+                    socket.emit('right', [x[me], me]);
+                }
             }
         }
 
         if (keyIsDown(UP_ARROW)) {
             if (y[me] > 0) {
-                life -= 0.005;
-                y[me]--;
-                socket.emit('up', [y[me], me]);
+                var side = 32;
+                var playerOX = x[me] + (side / 2);
+                var playerOY = y[me] + (side / 2);
+                var top = true;
+                for (var i in stoneArr) {
+                    var objectOX = stoneArr[i].x + (side / 2);
+                    var objectOY = stoneArr[i].y + (side / 2);
+                    if (playerOY - objectOY <= side && playerOY - objectOY >= 0) {
+                        if (Math.abs(playerOX - objectOX) < side) {
+                            top = false;
+                            life += 0.5;
+                        }
+                    }
+                }
+                for (var i in goldArr) {
+                    var objectOX = goldArr[i].x + (side / 2);
+                    var objectOY = goldArr[i].y + (side / 2);
+                    if (playerOY - objectOY <= side && playerOY - objectOY >= 0) {
+                        if (Math.abs(playerOX - objectOX) < side) {
+                            if (gold_[me] != true) {
+                                gold_[me] = true;
+                                socket.emit('gold', i);
+                            }
+                            else {
+                                top = false;
+                            }
+                        }
+                    }
+                }
+                for (var i in powerArr) {
+                    var objectOX = powerArr[i].x + (side / 2);
+                    var objectOY = powerArr[i].y + (side / 2);
+                    if (playerOY - objectOY <= side && playerOY - objectOY >= 0) {
+                        if (Math.abs(playerOX - objectOX) < side) {
+                            life -= 15;
+                            socket.emit('power', i);
+                        }
+                    }
+                }
+                if (top == true) {
+                    life += 0.005;
+                    y[me]--;
+                    socket.emit('up', [y[me], me]);
+                }
             }
         }
 
         if (keyIsDown(DOWN_ARROW)) {
             if (y[me] < 576) {
-                life -= 0.005;
-                y[me]++;
-                socket.emit('down', [y[me], me]);
+                var side = 32;
+                var playerOX = x[me] + (side / 2);
+                var playerOY = y[me] + (side / 2);
+                var down = true;
+                for (var i in stoneArr) {
+                    var objectOX = stoneArr[i].x + (side / 2);
+                    var objectOY = stoneArr[i].y + (side / 2);
+                    if (objectOY - playerOY <= side && objectOY - playerOY >= 0) {
+                        if (Math.abs(playerOX - objectOX) < side) {
+                            down = false;
+                            life += 0.5;
+                        }
+                    }
+                }
+                for (var i in goldArr) {
+                    var objectOX = goldArr[i].x + (side / 2);
+                    var objectOY = goldArr[i].y + (side / 2);
+                    if (objectOY - playerOY <= side && objectOY - playerOY >= 0) {
+                        if (Math.abs(playerOX - objectOX) < side) {
+                            if (gold_[me] != true) {
+                                gold_[me] = true;
+                                socket.emit('gold', i);
+                            }
+                            else {
+                                down = false;
+                            }
+                        }
+                    }
+                }
+                for (var i in powerArr) {
+                    var objectOX = powerArr[i].x + (side / 2);
+                    var objectOY = powerArr[i].y + (side / 2);
+                    if (objectOY - playerOY <= side && objectOY - playerOY >= 0) {
+                        if (Math.abs(playerOX - objectOX) < side) {
+                            life -= 15;
+                            socket.emit('power', i);
+                        }
+                    }
+                }
+                if (down == true) {
+                    life += 0.005;
+                    y[me]++;
+                    socket.emit('down', [y[me], me]);
+                }
             }
         }
     }
@@ -165,11 +291,15 @@ function main() {
         draw = function () {
             q++;
             image(grass, 0, 0, 704, 608);
-
             image(img1, x[0], y[0], 32, 32);
             image(img2, x[1], y[1], 32, 32);
             image(img3, x[2], y[2], 32, 32);
             image(img4, x[3], y[3], 32, 32);
+            for (var i = 0; i < 4; i++) {
+                if (gold_[i] == true) {
+                    image(gold, x[i] + 8, y[i] + 5, 17, 17);
+                }
+            }
 
             for (var i in stoneArr) {
                 image(stone, stoneArr[i].x, stoneArr[i].y, 32, 32);
