@@ -1,5 +1,13 @@
 body {
-    font-family: Arial, Helvetica, sans-serif!important;
+    font-family: 'Hi Melody', cursive;
+}
+h3{
+    font-size: 40px;
+    margin: 1px;
+}
+p{
+    font-size: 20px;
+    margin: 1px;
 }
 #energy{
     position:  absolute;

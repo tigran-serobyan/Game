@@ -1,53 +1,3 @@
-var q = 0;
-function newDraw() {
-    draw = function () {
-        q++;
-        image(grass, 0, 0, 704, 608);
-
-        image(img1, x[0], y[0], 32, 32);
-        image(img2, x[1], y[1], 32, 32);
-        image(img3, x[2], y[2], 32, 32);
-        image(img4, x[3], y[3], 32, 32);
-
-        for (var i in stoneArr) {
-            image(stone, stoneArr[i].x, stoneArr[i].y, 32, 32);
-        }
-        for (var i in goldArr) {
-            image(gold, goldArr[i].x, goldArr[i].y, 32, 32);
-        }
-        for (var i in powerArr) {
-            image(power, powerArr[i].x, powerArr[i].y, 32, 32);
-        }
-        image(black, x[me] - 1380, y[me] - 1170, 2816, 2432);
-        /* rect(x-704, y-608,664,1216);
-        rect(x-704, y-608,1408,568);
-        rect(x+70, y-70,904,808);
-        rect(x-70, y+70,904,808);*/
-        if (q <= 500) {
-            fill(0);
-            rect(0, 0, 704, 608);
-            fill(255);
-            rect(202, 275, 200, 50);
-            textSize(20);
-            if (me == 0) {
-                fill(0, 0, 200);
-                text('You are BLUE', 222, 300);
-            }
-            if (me == 1) {
-                fill(0, 200, 0);
-                text('You are GREEN', 222, 300);
-            }
-            if (me == 2) {
-                fill(200, 100, 0);
-                text('You are ORANGE', 222, 300);
-            }
-            if (me == 3) {
-                fill(200, 200, 0);
-                text('You are YELLOW', 222, 300);
-            }
-        }
-    }
-}
 var me = -1;
 var x = [0, 672, 0, 672];
 var y = [0, 0, 576, 576];
@@ -82,6 +32,9 @@ function setup() {
 function draw() {
     fill(0);
     rect(0, 0, 704, 608);
+    fill(255);
+    textSize(50);
+    text('Wait ... ', 200, 300);
 }
 function main() {
     var username = prompt('Welcome \nEnter a usermname');
@@ -90,6 +43,7 @@ function main() {
     }
     var socket = io.connect('http://localhost:3000');
     var chatDiv = document.getElementById('chat');
+    var infoDiv = document.getElementById('info');
     var input = document.getElementById('message');
     var button = document.getElementById('submit');
 
@@ -108,7 +62,7 @@ function main() {
         input.value = "";
     }
     function deleteMessages() {
-        chatDiv.innerHTML = "";
+        chatDiv.innerHTML = "<h3>Chat</h3>";
     }
     function start(arr) {
         stoneArr = arr[0];
@@ -124,14 +78,14 @@ function main() {
             me = you;
         }
         if (you == 3) {
-            setTimeout(newDraw, 3000);
+            newDraw();
         }
     });
     socket.on('left', function (you) { x[you[1]] = you[0]; });
     socket.on('right', function (you) { x[you[1]] = you[0]; });
     socket.on('up', function (you) { y[you[1]] = you[0]; });
     socket.on('down', function (you) { y[you[1]] = you[0]; });
-    socket.on('gold', function (i) { goldArr.splice(i, 1); });
+    socket.on('info', function (info) { infoDiv.innerHTML += info; });
     function move() {
         life -= 0.001;
         document.getElementById('energy_color').style.width = life + "%";
@@ -206,6 +160,72 @@ function main() {
         }
     }
     setInterval(move, 50);
+    var q = 0;
+    function newDraw() {
+        draw = function () {
+            q++;
+            image(grass, 0, 0, 704, 608);
+
+            image(img1, x[0], y[0], 32, 32);
+            image(img2, x[1], y[1], 32, 32);
+            image(img3, x[2], y[2], 32, 32);
+            image(img4, x[3], y[3], 32, 32);
+
+            for (var i in stoneArr) {
+                image(stone, stoneArr[i].x, stoneArr[i].y, 32, 32);
+            }
+            for (var i in goldArr) {
+                image(gold, goldArr[i].x, goldArr[i].y, 32, 32);
+            }
+            for (var i in powerArr) {
+                image(power, powerArr[i].x, powerArr[i].y, 32, 32);
+            }
+            image(black, x[me] - 1380, y[me] - 1170, 2816, 2432);
+            /* rect(x-704, y-608,664,1216);
+            rect(x-704, y-608,1408,568);
+            rect(x+70, y-70,904,808);
+            rect(x-70, y+70,904,808);*/
+            if (q <= 100) {
+                fill(0);
+                rect(0, 0, 704, 608);
+                fill(255);
+                rect(300, 200, 200, 50);
+                textSize(20);
+                if (me == 0) {
+                    fill(0, 0, 200);
+                    text('You are BLUE', 320, 220);
+                    if (q == 1) {
+                        Start_Text = '<p><strong style="color:blue">Blue:</strong>' + username + "<br></p>";
+                        socket.emit('Start', Start_Text);
+                    }
+                }
+                if (me == 1) {
+                    fill(200, 100, 0);
+                    text('You are ORANGE', 320, 220);
+                    if (q == 1) {
+                        Start_Text = '<p><strong style="color:orange">Orange:</strong>' + username + "<br></p>";
+                        socket.emit('Start', Start_Text);
+                    }
+                }
+                if (me == 2) {
+                    fill(0, 200, 0);
+                    text('You are GREEN', 320, 220);
+                    if (q == 1) {
+                        Start_Text = '<p><strong style="color:green">Green:</strong>' + username + "<br></p>";
+                        socket.emit('Start', Start_Text);
+                    }
+                }
+                if (me == 3) {
+                    fill(200, 200, 0);
+                    text('You are YELLOW', 320, 220);
+                    if (q == 1) {
+                        Start_Text = '<p><strong style="color:yellow">Yellow:</strong>' + username + "<br></p>";
+                        socket.emit('Start', Start_Text);
+                    }
+                }
+            }
+        }
+    }
 }
 
 window.onload = main;
