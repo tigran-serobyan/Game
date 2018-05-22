@@ -34,7 +34,7 @@ function draw() {
     rect(0, 0, 704, 608);
     fill(255);
     textSize(50);
-    text('Wait ... ', 200, 300);
+    text('Wait ... ', 270, 300);
 }
 function main() {
     var username = prompt('Welcome \nEnter a usermname');
@@ -86,6 +86,7 @@ function main() {
     socket.on('up', function (you) { y[you[1]] = you[0]; });
     socket.on('down', function (you) { y[you[1]] = you[0]; });
     socket.on('info', function (info) { infoDiv.innerHTML += info; });
+    socket.on('gold_', function (new_gold) { gold_ = new_gold; });
     function move() {
         life += 0.001;
         document.getElementById('energy_color').style.width = life + "%";
@@ -113,6 +114,7 @@ function main() {
                             if (gold_[me] != true) {
                                 gold_[me] = true;
                                 socket.emit('gold', i);
+                                socket.emit('gold_?', gold_);
                             }
                             else {
                                 left = false;
@@ -162,6 +164,7 @@ function main() {
                             if (gold_[me] != true) {
                                 gold_[me] = true;
                                 socket.emit('gold', i);
+                                socket.emit('gold_?', gold_);
                             }
                             else {
                                 right = false;
@@ -211,6 +214,7 @@ function main() {
                             if (gold_[me] != true) {
                                 gold_[me] = true;
                                 socket.emit('gold', i);
+                                socket.emit('gold_?', gold_);
                             }
                             else {
                                 top = false;
@@ -260,6 +264,7 @@ function main() {
                             if (gold_[me] != true) {
                                 gold_[me] = true;
                                 socket.emit('gold', i);
+                                socket.emit('gold_?', gold_);
                             }
                             else {
                                 down = false;
@@ -283,13 +288,19 @@ function main() {
                     socket.emit('down', [y[me], me]);
                 }
             }
-        }
+        }///
     }
     setInterval(move, 50);
     var q = 0;
     function newDraw() {
         draw = function () {
-            q++;
+            if(life > 110){
+                x[me] = -200;
+                y[me] = -200;
+                socket.emit('down', [y[me], me]);
+                socket.emit('right', [x[me], me]);
+            }
+            q += 20;
             image(grass, 0, 0, 704, 608);
             image(img1, x[0], y[0], 32, 32);
             image(img2, x[1], y[1], 32, 32);
@@ -310,49 +321,57 @@ function main() {
             for (var i in powerArr) {
                 image(power, powerArr[i].x, powerArr[i].y, 32, 32);
             }
-            image(black, x[me] - 1380, y[me] - 1170, 2816, 2432);
+            image(black, x[me] - 1380 - (q / 100), y[me] - 1170 - (q / 100), 2816 + (q / 49), 2432 + (q / 49));
             /* rect(x-704, y-608,664,1216);
             rect(x-704, y-608,1408,568);
             rect(x+70, y-70,904,808);
             rect(x-70, y+70,904,808);*/
-            if (q <= 100) {
-                fill(0);
-                rect(0, 0, 704, 608);
+            if (q <= 1000) {
                 fill(255);
                 rect(300, 200, 200, 50);
                 textSize(20);
                 if (me == 0) {
                     fill(0, 0, 200);
                     text('You are BLUE', 320, 220);
-                    if (q == 1) {
+                    if (q == 20) {
                         Start_Text = '<p><strong style="color:blue">Blue:</strong>' + username + "<br></p>";
-                        socket.emit('Start', Start_Text);
+                        socket.emit('info', Start_Text);
                     }
                 }
                 if (me == 1) {
                     fill(200, 100, 0);
                     text('You are ORANGE', 320, 220);
-                    if (q == 1) {
+                    if (q == 20) {
                         Start_Text = '<p><strong style="color:orange">Orange:</strong>' + username + "<br></p>";
-                        socket.emit('Start', Start_Text);
+                        socket.emit('info', Start_Text);
                     }
                 }
                 if (me == 2) {
                     fill(0, 200, 0);
                     text('You are GREEN', 320, 220);
-                    if (q == 1) {
+                    if (q == 20) {
                         Start_Text = '<p><strong style="color:green">Green:</strong>' + username + "<br></p>";
-                        socket.emit('Start', Start_Text);
+                        socket.emit('info', Start_Text);
                     }
                 }
                 if (me == 3) {
                     fill(200, 200, 0);
                     text('You are YELLOW', 320, 220);
-                    if (q == 1) {
+                    if (q == 20) {
                         Start_Text = '<p><strong style="color:yellow">Yellow:</strong>' + username + "<br></p>";
-                        socket.emit('Start', Start_Text);
+                        socket.emit('info', Start_Text);
                     }
                 }
+            }
+            if(life > 110){
+                if(q != 1021){
+                    var died_text = "<p><strong>"+username+"</strong>"+" died</p>"
+                    socket.emit('info',died_text);
+                }
+                q = 1001;
+                fill(255);
+                textSize(40);
+                text('Game over', 270, 300);
             }
         }
     }
