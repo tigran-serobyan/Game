@@ -1,7 +1,21 @@
 var me = -1;
-var x = [0, 672, 0, 672];
-var y = [0, 0, 576, 576];
+var x = [64, 608, 64, 608];
+var y = [64, 64, 502, 502];
 var gold_ = [false, false, false, false];
+var base_ =[
+    [32,32],
+    [640,0],
+    [0,544],
+    [640,544],
+    [32,0],
+    [640,32],
+    [32,544],
+    [672,544],
+    [0,32],
+    [672,32],
+    [32,576],
+    [640,576]
+];
 var img1;
 var img2;
 var img3;
@@ -11,6 +25,7 @@ var stone;
 var gold;
 var power;
 var black;
+var base;
 var stoneArr = [];
 var goldArr = [];
 var powerArr = [];
@@ -28,6 +43,10 @@ function setup() {
     gold = loadImage('images/gold.png');
     power = loadImage('images/power.png');
     black = loadImage('images/black.png');
+    base1 = loadImage('images/camp_blue.png');
+    base2 = loadImage('images/camp_orange.png');
+    base3 = loadImage('images/camp_green.png');
+    base4 = loadImage('images/camp_yellow.png');
 }
 function draw() {
     fill(0);
@@ -294,6 +313,7 @@ function main() {
     var q = 0;
     function newDraw() {
         draw = function () {
+
             if(life > 110){
                 x[me] = -200;
                 y[me] = -200;
@@ -306,6 +326,10 @@ function main() {
             image(img2, x[1], y[1], 32, 32);
             image(img3, x[2], y[2], 32, 32);
             image(img4, x[3], y[3], 32, 32);
+            image(base1, 0, 0, 64, 64);
+            image(base2, 640, 0, 64, 64);
+            image(base3, 0, 544, 64, 64);
+            image(base4, 640, 544, 64, 64);
             for (var i = 0; i < 4; i++) {
                 if (gold_[i] == true) {
                     image(gold, x[i] + 8, y[i] + 5, 17, 17);
