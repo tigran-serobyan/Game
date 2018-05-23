@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
+
 var messages = [];
 var count = 0;
 var stoneArr = [];
@@ -18,31 +19,31 @@ for (var y = 0; y < 19; y++) {
     }
 }
 for (var i = 0; i < stone_count; i++) {
-    var x = (Math.floor(Math.random() * 20) + 1) * 32;
-    var y = (Math.floor(Math.random() * 17) + 1) * 32;
+    var x = (Math.floor(Math.random() * 18) + 2) * 32;
+    var y = (Math.floor(Math.random() * 15) + 2) * 32;
     while (matrix[y][x] == 1) {
-        var x = (Math.floor(Math.random() * 20) + 1) * 32;
-        var y = (Math.floor(Math.random() * 17) + 1) * 32;
+        var x = (Math.floor(Math.random() * 18) + 2) * 32;
+        var y = (Math.floor(Math.random() * 15) + 2) * 32;
     }
     matrix[y][x] = 1;
     stoneArr[i] = { 'x': x, 'y': y };
 }
 for (var i = 0; i < gold_count; i++) {
-    var x = (Math.floor(Math.random() * 20) + 1) * 32;
-    var y = (Math.floor(Math.random() * 17) + 1) * 32;
+    var x = (Math.floor(Math.random() * 18) + 2) * 32;
+    var y = (Math.floor(Math.random() * 15) + 2) * 32;
     while (matrix[y][x] == 1) {
-        var x = (Math.floor(Math.random() * 20) + 1) * 32;
-        var y = (Math.floor(Math.random() * 17) + 1) * 32;
+        var x = (Math.floor(Math.random() * 18) + 2) * 32;
+        var y = (Math.floor(Math.random() * 15) + 2) * 32;
     }
     matrix[y][x] = 1;
     goldArr[i] = { 'x': x, 'y': y };
 }
 for (var i = 0; i < power_count; i++) {
-    var x = (Math.floor(Math.random() * 20) + 1) * 32;
-    var y = (Math.floor(Math.random() * 17) + 1) * 32;
+    var x = (Math.floor(Math.random() * 18) + 2) * 32;
+    var y = (Math.floor(Math.random() * 15) + 2) * 32;
     while (matrix[y][x] == 1) {
-        var x = (Math.floor(Math.random() * 20) + 1) * 32;
-        var y = (Math.floor(Math.random() * 17) + 1) * 32;
+        var x = (Math.floor(Math.random() * 18) + 2) * 32;
+        var y = (Math.floor(Math.random() * 15) + 2) * 32;
     }
     matrix[y][x] = 1;
     powerArr[i] = { 'x': x, 'y': y };
