@@ -2,6 +2,8 @@ var express = require('express');
 var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
+var ip = require('ip');
+console.log(ip.address());
 
 var messages = [];
 var count = 0;

@@ -1,107 +1,57 @@
 body {
-    font-family: 'Hi Melody', cursive;
+    font-family: Arial, Helvetica, sans-serif!important;
 }
-h3{
-    font-size: 40px;
-    margin: 1px;
-}
-p{
-    font-size: 20px;
-    margin: 1px;
-}
-#energy{
-    position:  absolute;
-    width: 300px;
-    height: 37px;
-    left: 1010px;
-}
-#energy_span{
-    background-image:linear-gradient(to right, #ff4800 0%, #ffcc00 45%, #66aa00 60%, #22aa00 100%);
-    display: inline-block;
-    width: 300px;
-    height: 37px;
-}
-#energy_img{
-    background-image: url(images/life.png);
-    background-size: 100%;
-    position: absolute;
-    width: 300px;
-    height: 37px;
-}
-#energy_color{
-    position:  absolute;
-    top: 0;
-    right: 0;
-    width: 100%;
-    height: 37px;
-    background: white;
-    transition: width 0.3s;
-    transition-timing-function: linear;
-}
-canvas{
-    position: absolute;
-    left: 300px;
-}
-#chat_div{
-    position:  absolute;
-    border: dotted 2px #acacac;
-    padding: 10px;
-    border-radius: 5px;
-    background-image: linear-gradient(to bottom, #fafafa 0%,#fafafa 90.9999%,#acacac 90.99991%, #acacac 100%);
-}
+
 #chat {
-    width: 250px;
-    height: 500px;
+    width: 1000px;
+    margin:auto;
     background-color: #FAFAFA;
-    padding: 0;
-    overflow: auto;
-    font-size: 13px;
+    border: 1px solid #acacac;
+    padding: 1em;   
+    text-align: center;
 }
 #input {
-    width: 250px;
+    width: 1000px;
+    margin:auto;
     background-color: #acacac;
     border: 1px solid #acacac;
-    padding: 0;   
+    padding: 1em;   
     text-align: center;
 }
 
 #message {
-    border: 2px solid #55aaee;
-    width: 180px;
-    height: 38px;
-    margin: auto;
-    padding: 2px;
-    font-size: 14px;
+    border: 2px solid #03A9F4;
+    width: 750px;
+    padding: 9px;
+    height: 50px;
     box-sizing: border-box;
+    font-size: 1.25em;
+    margin: 5px;
+    border-radius: 5px;
 }
 
 #submit {
-    width: 60px;
-    height: 38px;
-    border-radius: 0;
+    width: 150px;
+    height: 50px;
+    border-radius: 5px;
     background-color: #43A047;
     color: white;
-    font-size: 14px;
+    font-size: 1.25em;
+    border: none;
+    box-sizing:  border-box;
+}
+#delete {
+    width: 150px;
+    height: 50px;
+    border-radius: 5px;
+    background-color: #ff5533;
+    color: white;
+    font-size: 1.25em;
     border: none;
 }
+
 #chat_p {
     font-weight: bold;
     font-size: 1.5em;
     color: #34495e;
-}
-#info_div{
-    position:  absolute;
-    border: dotted 2px #acacac;
-    top: 250px;
-    left: 1020px;
-    padding: 10px;
-    border-radius: 5px;
-    background: #cccccc;
-}
-#info {
-    width: 300px;
-    height: 300px;
-    padding: 0;
-    overflow: auto;
-    font-size: 13px;
 }
