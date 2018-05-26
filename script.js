@@ -2,7 +2,7 @@ var me = -1;
 var x = [64, 608, 64, 608];
 var y = [64, 64, 502, 502];
 var gold_ = [false, false, false, false];
-var point;
+var point = 0;
 var base_ = [
     [32, 32],
     [640, 0],
@@ -61,7 +61,7 @@ function main() {
     while (username == "") {
         username = prompt("Enter a username \nIt is important");
     }
-    var socket = io.connect('http://localhost:3000');
+    var socket = io();
     var chatDiv = document.getElementById('chat');
     var infoDiv = document.getElementById('info');
     var input = document.getElementById('message');
@@ -157,8 +157,8 @@ function main() {
                     var objectOY = base_[i][1] + (side / 2);
                     if (playerOX - objectOX <= side && playerOX - objectOX >= 0) {
                         if (Math.abs(playerOY - objectOY) < side) {
-                            if(i/4 == me){
-                                left = false;
+                            left = false;
+                            if(i%4 == me){
                                 gold_[me] = false;
                                 point ++;
                             }
@@ -220,8 +220,8 @@ function main() {
                     var objectOY = base_[i][1] + (side / 2);
                     if (objectOX - playerOX <= side && objectOX - playerOX >= 0) {
                         if (Math.abs(playerOY - objectOY) < side) {
-                            if(i/4 == me){
-                                right = false;
+                            right = false;
+                            if(i%4 == me){
                                 gold_[me] = false;
                                 point ++;
                             }
@@ -283,8 +283,8 @@ function main() {
                     var objectOY = base_[i][1] + (side / 2);
                     if (playerOY - objectOY <= side && playerOY - objectOY >= 0) {
                         if (Math.abs(playerOX - objectOX) < side) {
-                            if(i/4 == me){
-                                top = false;
+                            top = false;
+                            if(i%4 == me){
                                 gold_[me] = false;
                                 point ++;
                             }
@@ -346,8 +346,8 @@ function main() {
                     var objectOY = base_[i][1] + (side / 2);
                     if (objectOY - playerOY <= side && objectOY - playerOY >= 0) {
                         if (Math.abs(playerOX - objectOX) < side) {
-                            if(i/4 == me){
-                                down = false;
+                            down = false;
+                            if(i%4 == me){
                                 gold_[me] = false;
                                 point ++;
                             }
