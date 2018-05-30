@@ -2,7 +2,6 @@ var me = -1;
 var x = [64, 608, 64, 608];
 var y = [64, 64, 502, 502];
 var gold_ = [false, false, false, false];
-var point = 0;
 var base_ = [
     [32, 32],
     [640, 0],
@@ -64,6 +63,7 @@ function main() {
     var socket = io();
     var chatDiv = document.getElementById('chat');
     var infoDiv = document.getElementById('info');
+    var pointDiv = document.getElementById('point');
     var input = document.getElementById('message');
     var button = document.getElementById('submit');
 
@@ -101,11 +101,14 @@ function main() {
             newDraw();
         }
     });
+    function info_change(info){
+        infoDiv.innerHTML += info;
+    }
     socket.on('left', function (you) { x[you[1]] = you[0]; });
     socket.on('right', function (you) { x[you[1]] = you[0]; });
     socket.on('up', function (you) { y[you[1]] = you[0]; });
     socket.on('down', function (you) { y[you[1]] = you[0]; });
-    socket.on('info', function (info) { infoDiv.innerHTML += info; });
+    socket.on('info', function (info) { info_change(info); });
     socket.on('gold_', function (new_gold) { gold_ = new_gold; });
     function move() {
         life += 0.001;
@@ -147,7 +150,7 @@ function main() {
                     var objectOY = powerArr[i].y + (side / 2);
                     if (playerOX - objectOX <= side && playerOX - objectOX >= 0) {
                         if (Math.abs(playerOY - objectOY) < side) {
-                            powerArr.splice(i, 1);
+                            socket.emit('power',i);
                             life -= 15;
                         }
                     }
@@ -158,9 +161,11 @@ function main() {
                     if (playerOX - objectOX <= side && playerOX - objectOX >= 0) {
                         if (Math.abs(playerOY - objectOY) < side) {
                             left = false;
-                            if(i%4 == me){
+                            if (i % 4 == me && gold_[me]) {
                                 gold_[me] = false;
-                                point ++;
+                                socket.emit('gold_?',gold_);
+                                info_change('<p>You get a point</p>'); 
+                                pointDiv.innerText = parseInt(pointDiv.innerText)+1;
                             }
                         }
                     }
@@ -210,7 +215,7 @@ function main() {
                     var objectOY = powerArr[i].y + (side / 2);
                     if (objectOX - playerOX <= side && objectOX - playerOX >= 0) {
                         if (Math.abs(playerOY - objectOY) < side) {
-                            powerArr.splice(i, 1);
+                            socket.emit('power',i);
                             life -= 15;
                         }
                     }
@@ -221,9 +226,12 @@ function main() {
                     if (objectOX - playerOX <= side && objectOX - playerOX >= 0) {
                         if (Math.abs(playerOY - objectOY) < side) {
                             right = false;
-                            if(i%4 == me){
+                            if (i % 4 == me && gold_[me]) {
                                 gold_[me] = false;
-                                point ++;
+                                
+                                socket.emit('gold_?',gold_);
+                                info_change('You get a point'); 
+                                pointDiv.innerText = parseInt(pointDiv.innerText)+1;
                             }
                         }
                     }
@@ -284,9 +292,12 @@ function main() {
                     if (playerOY - objectOY <= side && playerOY - objectOY >= 0) {
                         if (Math.abs(playerOX - objectOX) < side) {
                             top = false;
-                            if(i%4 == me){
+                            if (i % 4 == me && gold_[me]) {
                                 gold_[me] = false;
-                                point ++;
+                                
+                                socket.emit('gold_?',gold_);
+                                info_change('You get a point'); 
+                                pointDiv.innerText = parseInt(pointDiv.innerText)+1;
                             }
                         }
                     }
@@ -347,9 +358,12 @@ function main() {
                     if (objectOY - playerOY <= side && objectOY - playerOY >= 0) {
                         if (Math.abs(playerOX - objectOX) < side) {
                             down = false;
-                            if(i%4 == me){
+                            if (i % 4 == me && gold_[me]) {
                                 gold_[me] = false;
-                                point ++;
+                                
+                                socket.emit('gold_?',gold_);
+                                info_change('You get a point'); 
+                                pointDiv.innerText = parseInt(pointDiv.innerText)+1;
                             }
                         }
                     }
@@ -398,7 +412,7 @@ function main() {
             for (var i in powerArr) {
                 image(power, powerArr[i].x, powerArr[i].y, 32, 32);
             }
-            image(black, x[me] - 1380 - (q / 100), y[me] - 1170 - (q / 100), 2816 + (q / 49), 2432 + (q / 49));
+            image(black, x[me] - 1380, y[me] - 1170, 2816, 2432);
             /* rect(x-704, y-608,664,1216);
             rect(x-704, y-608,1408,568);
             rect(x+70, y-70,904,808);

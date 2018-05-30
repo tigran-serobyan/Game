@@ -81,10 +81,22 @@ io.on('connection', function (socket) {
             var x = (Math.floor(Math.random() * 20) + 1) * 32;
             var y = (Math.floor(Math.random() * 17) + 1) * 32;
         }
+        matrix[goldArr[i].y][goldArr[i].x] = 0;
         matrix[y][x] = 1;
-        goldArr[i] = { 'x': x, 'y': y }; io.sockets.emit("start", [stoneArr, goldArr, powerArr]);
+        goldArr[i] = { 'x': x, 'y': y };
+        io.sockets.emit("start", [stoneArr, goldArr, powerArr]);
     });
-    socket.on('power', function (i) { powerArr.splice(i, 1); io.sockets.emit("start", [stoneArr, goldArr, powerArr]); });
+    socket.on('power', function (i) {
+        var x = (Math.floor(Math.random() * 20) + 1) * 32;
+        var y = (Math.floor(Math.random() * 17) + 1) * 32;
+        while (matrix[y][x] == 1) {
+            var x = (Math.floor(Math.random() * 20) + 1) * 32;
+            var y = (Math.floor(Math.random() * 17) + 1) * 32;
+        }
+        matrix[powerArr[i].y][powerArr[i].x] = 0;
+        matrix[y][x] = 1;
+        powerArr[i] = { 'x': x, 'y': y };
+        io.sockets.emit("start", [stoneArr, goldArr, powerArr]); });
     socket.on('info', function (info) { io.sockets.emit('info', info) });
     socket.on('gold_?', function (gold_) { io.sockets.emit('gold_', gold_) });
 });
